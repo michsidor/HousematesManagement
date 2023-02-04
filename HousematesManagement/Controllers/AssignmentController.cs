@@ -1,6 +1,6 @@
-﻿using HousemateManagement.Tasks.Commands;
-using HousemateManagement.Tasks.Dto;
-using HousemateManagement.Tasks.Queries;
+﻿using HousemateManagement.Models.Assignments.Commands;
+using HousemateManagement.Models.Assignments.Dto;
+using HousemateManagement.Models.Assignments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;

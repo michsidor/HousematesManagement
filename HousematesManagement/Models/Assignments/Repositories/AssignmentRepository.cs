@@ -2,10 +2,10 @@
 using Entity.Database;
 using Entity.Entities;
 using HousemateManagement.Exceptions;
-using HousemateManagement.Tasks.Dto;
+using HousemateManagement.Models.Assignments.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tasks.Repositories
+namespace HousemateManagement.Models.Assignments.Repositories
 {
     public sealed class AssignmentRepository : IAssignmentRepository
     {
@@ -15,7 +15,7 @@ namespace HousemateManagement.Tasks.Repositories
         public AssignmentRepository(DatabaseContext context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;   
+            _mapper = mapper;
         }
 
         public async Task<List<Assignment>> GetAll(Guid Id) // userId
@@ -24,7 +24,7 @@ namespace HousemateManagement.Tasks.Repositories
                 .Select(family => family.FamilyId)
                 .FirstOrDefaultAsync();
 
-            if(familyId == Guid.Empty)
+            if (familyId == Guid.Empty)
             {
                 return null;
             }

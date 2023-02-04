@@ -1,7 +1,7 @@
-﻿using HousemateManagement.Tasks.Dto;
+﻿using HousemateManagement.Models.Assignments.Dto;
 using MediatR;
 
-namespace HousemateManagement.Tasks.Queries
+namespace HousemateManagement.Models.Assignments.Queries
 {
     public class GetAssignmentQuery : IRequest<AssignmentDto>
     {

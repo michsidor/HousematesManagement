@@ -1,7 +1,7 @@
-﻿using HousemateManagement.Tasks.Dto;
+﻿using HousemateManagement.Models.Assignments.Dto;
 using MediatR;
 
-namespace HousemateManagement.Tasks.Commands
+namespace HousemateManagement.Models.Assignments.Commands
 {
     public class AddAssignmentCommand : IRequest
     {

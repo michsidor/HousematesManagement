@@ -1,7 +1,7 @@
 using Entity.Database;
-using HousemateManagement.Tasks.Commands.Handlers;
-using HousemateManagement.Tasks.Repositories;
-using HousematesManagement.Tasks.Queries.Handlers;
+using HousemateManagement.Models.Assignments.Commands.Handlers;
+using HousemateManagement.Models.Assignments.Queries.Handlers;
+using HousemateManagement.Models.Assignments.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

@@ -1,7 +1,7 @@
-﻿using HousemateManagement.Tasks.Repositories;
+﻿using HousemateManagement.Models.Assignments.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Tasks.Commands.Handlers
+namespace HousemateManagement.Models.Assignments.Commands.Handlers
 {
     public class UpdateAssignmentCommandHandler : IRequestHandler<UpdateAssignmentCommand>
     {

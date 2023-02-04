@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace HousemateManagement.Tasks.Commands
+namespace HousemateManagement.Models.Assignments.Commands
 {
     public class DeleteAssignmentCommand : IRequest
     {

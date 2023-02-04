@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using HousemateManagement.Exceptions;
-using HousemateManagement.Tasks.Dto;
-using HousemateManagement.Tasks.Queries;
-using HousemateManagement.Tasks.Repositories;
+using HousemateManagement.Models.Assignments.Dto;
+using HousemateManagement.Models.Assignments.Repositories;
 using MediatR;
 
-namespace HousematesManagement.Tasks.Queries.Handlers
+namespace HousemateManagement.Models.Assignments.Queries.Handlers
 {
     public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQuery, List<AssignmentDto>>
     {

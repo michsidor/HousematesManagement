@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Entity.Entities;
-using HousemateManagement.Tasks.Dto;
 
-namespace HousematesManagement.Tasks.Dto.NewFolder
+namespace HousemateManagement.Models.Assignments.Dto.Profiles
 {
     public class AssignmentProfile : Profile
     {
-        public AssignmentProfile() 
+        public AssignmentProfile()
         {
             CreateMap<Assignment, AssignmentDto>();
             CreateMap<AssignmentDto, Assignment>();
