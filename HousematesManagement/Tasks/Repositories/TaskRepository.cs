@@ -3,6 +3,7 @@ using Entity.Database;
 using HousemateManagement.Exceptions;
 using HousemateManagement.Tasks.Dto;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HousemateManagement.Tasks.Repositories
 {
@@ -10,20 +11,30 @@ namespace HousemateManagement.Tasks.Repositories
     {
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
+
         public TaskRepository(DatabaseContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;   
         }
 
-        public async Task<IEnumerable<TaskDto>> GetAll(Guid Id) // zostawiam to nie jako userId tylko familyId, ktore zapisze w tokenie jwt
-        { 
-            var tasks = await _context.Users.Include(task => task.Tasks)
-                .Where(family => family.FamilyId == Id)
-                .Select(t => t.Tasks)
+        public async Task<List<TaskDto>> GetAll(Guid Id) // userId
+        {
+            var familyId = await _context.Users.Where(iden => iden.Id == Id)
+                .Select(family => family.FamilyId)
+                .FirstOrDefaultAsync();
+
+            if(familyId == Guid.Empty)
+            {
+                throw new NotFoundException("User is not included to any family");
+            }
+
+            var tasks = await _context.Users.Where(family => family.FamilyId == familyId)
+                .Include(task => task.Tasks)
+                .SelectMany(task => task.Tasks)
                 .ToListAsync();
 
-            if(tasks.Any())
+            if(!tasks.Any())
             {
                 throw new NotFoundException("No tasks in your family");
             }
@@ -35,9 +46,10 @@ namespace HousemateManagement.Tasks.Repositories
 
         public async Task<TaskDto> GetDirect(Guid Id)
         {
-            var task = await _context.Users.Include(task => task.Tasks)
+            var task = await _context.Users
                 .Where(user => user.Id == Id)
-                .Select(t => t.Tasks)
+                .Include(task => task.Tasks)
+                .SelectMany(t => t.Tasks)
                 .FirstOrDefaultAsync();
 
             if (task == null)

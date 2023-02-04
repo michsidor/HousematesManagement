@@ -1,6 +1,6 @@
-﻿using Entity.Database;
+﻿using HousemateManagement.Tasks.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace HousemateManagement.Controllers
@@ -9,19 +9,44 @@ namespace HousemateManagement.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-        public TaskController(DatabaseContext context)
+        private readonly IMediator _mediator;
+        public TaskController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        [HttpGet("users")]
-        public async Task<ActionResult<string>> Get()
+        [HttpGet]
+        public async Task<ActionResult<string>> GetOne() // request: https://localhost:7021/api/task
         {
-            var result = await _context.Users.ToListAsync();   
-            var resultJson = JsonSerializer.Serialize(result);
+            var result = await _mediator.Send(new GetTaskQuery() { Id = Guid.Parse("938AD847-5DA3-43C6-9BB5-16666F03E57B") });
 
-            return Ok(resultJson);
+            return Ok(JsonSerializer.Serialize(result));
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult<string>> GetAll() // request: https://localhost:7021/api/task/all
+        {
+            var result = await _mediator.Send(new GetAllTasksQuery() { Id = Guid.Parse("938AD847-5DA3-43C6-9BB5-16666F03E57B") });
+       
+            return Ok(JsonSerializer.Serialize(result));
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<string>> Delete()
+        {
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<string>> Add()
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> Update()
+        {
+            return Ok();
         }
     }
 }

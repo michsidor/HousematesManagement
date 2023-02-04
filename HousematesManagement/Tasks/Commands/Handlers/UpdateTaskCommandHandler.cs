@@ -11,9 +11,11 @@ namespace HousemateManagement.Tasks.Commands.Handlers
             _taskRepository = taskRepository;
         }
 
-        public Task<Unit> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
-            return null;
+            await _taskRepository.Update(request.Id, request.taskDto);
+
+            return Unit.Value;
         }
     }
 }

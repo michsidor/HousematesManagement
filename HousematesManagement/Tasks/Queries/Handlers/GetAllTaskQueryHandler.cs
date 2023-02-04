@@ -1,10 +1,11 @@
 ﻿using HousemateManagement.Tasks.Dto;
+using HousemateManagement.Tasks.Queries;
 using HousemateManagement.Tasks.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Tasks.Queries.Handlers
+namespace HousematesManagement.Tasks.Queries.Handlers
 {
-    public class GetAllTaskQueryHandler : IRequestHandler<GetAllTasksQuery, IEnumerable<TaskDto>>
+    public class GetAllTaskQueryHandler : IRequestHandler<GetAllTasksQuery, List<TaskDto>>
     {
         private readonly ITaskRepository _taskRepository;
         public GetAllTaskQueryHandler(ITaskRepository taskRepository)
@@ -12,9 +13,10 @@ namespace HousemateManagement.Tasks.Queries.Handlers
             _taskRepository = taskRepository;
         }
 
-        public async Task<IEnumerable<TaskDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
+        public async Task<List<TaskDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
         {
-            return await _taskRepository.GetAll(request.Id);
+            var x = await _taskRepository.GetAll(request.Id);
+            return x;
         }
     }
 }
