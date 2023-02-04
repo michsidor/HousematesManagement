@@ -18,14 +18,14 @@ namespace HousemateManagement.Models.Assignments.Queries.Handlers
 
         public async Task<List<AssignmentDto>> Handle(GetAllAssignmentsQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await _taskRepository.GetAll(request.Id);
+            var assignments = await _taskRepository.GetAll(request.Id);
 
-            if (!tasks.Any())
+            if (!assignments.Any())
             {
-                throw new NotFoundException("No tasks in your family or you are not included to family");
+                throw new NotFoundException("No assignments in your family or you are not included to family");
             }
 
-            var result = _mapper.Map<List<AssignmentDto>>(tasks);
+            var result = _mapper.Map<List<AssignmentDto>>(assignments);
 
             return result;
         }

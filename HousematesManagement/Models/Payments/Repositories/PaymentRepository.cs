@@ -20,7 +20,7 @@ namespace HousemateManagement.Models.Payments.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Payment> GetDirect(Guid id)
+        public Task<List<Payment>> GetDirect(Guid id)
         {
             throw new NotImplementedException();
         }

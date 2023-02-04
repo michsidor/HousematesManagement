@@ -37,13 +37,13 @@ namespace HousemateManagement.Models.Assignments.Repositories
             return assignments;
         }
 
-        public async Task<Assignment> GetDirect(Guid Id)
+        public async Task<List<Assignment>> GetDirect(Guid Id)
         {
             var assignment = await _context.Users
                 .Where(user => user.Id == Id)
                 .Include(assignment => assignment.Assignment)
                 .SelectMany(assignments => assignments.Assignment)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
             return assignment;
         }
