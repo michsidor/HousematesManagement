@@ -14,14 +14,14 @@ namespace HousemateManagement
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+            builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly()); 
-            builder.Services.AddMediatR(typeof(GetAllTaskQueryHandler)); 
-            builder.Services.AddMediatR(typeof(GetTaskQueryHandler)); // dodanie mediatora do kontenera DI
-            builder.Services.AddMediatR(typeof(AddTaskCommandHandler)); // dodanie mediatora do kontenera DI
-            builder.Services.AddMediatR(typeof(DeleteTaskCommandHandler)); // dodanie mediatora do kontenera DI
-            builder.Services.AddMediatR(typeof(UpdateTaskCommandHandler)); // dodanie mediatora do kontenera DI
+            builder.Services.AddMediatR(typeof(GetAllAssignmentsQueryHandler)); 
+            builder.Services.AddMediatR(typeof(GetAssignmentQueryHandler)); // dodanie mediatora do kontenera DI
+            builder.Services.AddMediatR(typeof(AddAssignmentCommandHandler)); // dodanie mediatora do kontenera DI
+            builder.Services.AddMediatR(typeof(DeleteAssignmentCommandHandler)); // dodanie mediatora do kontenera DI
+            builder.Services.AddMediatR(typeof(UpdateAssignmentCommandHandler)); // dodanie mediatora do kontenera DI
 
             builder.Services.AddControllers();
             builder.Services.AddDbContext<DatabaseContext>(

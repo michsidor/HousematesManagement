@@ -13,7 +13,7 @@ namespace Entity.Entities
         public string? Password { get; set; }
         public DateTime Birthday { get; set; }
         public Gender Gender { get; set; }
-        public ICollection<Task>? Tasks { get; set; }
+        public ICollection<Assignment>? Assignment { get; set; }
         public ICollection<Advertisement>? Advertisements { get; set; }
         public ICollection<Payment>? Payments { get; set; }
 
