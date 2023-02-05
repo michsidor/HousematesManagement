@@ -6,7 +6,7 @@ using MediatR;
 
 namespace HousemateManagement.Models.Assignments.Queries.Handlers
 {
-    public class GetAssignmentQueryHandler : IRequestHandler<GetAssignmentQuery, AssignmentDto>
+    public class GetAssignmentQueryHandler : IRequestHandler<GetAssignmentQuery, List<AssignmentDto>>
     {
         private readonly IAssignmentRepository _taskRepository;
         private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ namespace HousemateManagement.Models.Assignments.Queries.Handlers
             _mapper = mapper;
         }
 
-        public async Task<AssignmentDto> Handle(GetAssignmentQuery request, CancellationToken cancellationToken)
+        public async Task<List<AssignmentDto>> Handle(GetAssignmentQuery request, CancellationToken cancellationToken)
         {
             var assignments = await _taskRepository.GetDirect(request.Id);
 
@@ -25,7 +25,7 @@ namespace HousemateManagement.Models.Assignments.Queries.Handlers
                 throw new NotFoundException("You have not added any assignments");
             }
 
-            var result = _mapper.Map<AssignmentDto>(assignments);
+            var result = _mapper.Map<List<AssignmentDto>>(assignments);
 
             return result;
         }

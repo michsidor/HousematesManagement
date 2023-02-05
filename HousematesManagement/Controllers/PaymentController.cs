@@ -1,6 +1,6 @@
-﻿using HousemateManagement.Models.Assignments.Commands;
-using HousemateManagement.Models.Assignments.Dto;
-using HousemateManagement.Models.Assignments.Queries;
+﻿using HousemateManagement.Models.Payments.Commands;
+using HousemateManagement.Models.Payments.Dto;
+using HousemateManagement.Models.Payments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -20,31 +20,53 @@ namespace HousemateManagement.Controllers
         [HttpGet]
         public async Task<ActionResult<string>> GetOne()
         {
-            return Ok();
+            var result = await _mediator.Send(new GetDirectPaymentsQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+
+            return Ok(JsonSerializer.Serialize(result));
         }
 
         [HttpGet("all")]
         public async Task<ActionResult<string>> GetAll() 
         {
-            return Ok();
+            var result = await _mediator.Send(new GetAllPaymentsQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+
+            return Ok(JsonSerializer.Serialize(result));
         }
 
         [HttpDelete]
         public async Task<ActionResult<string>> Delete()
         {
-            return Ok();
+            var listGuids = new List<Guid>()
+            {
+                Guid.Parse("83CE2A4D-F930-41D7-B483-2584F4C3391C")
+            };
+
+            await _mediator.Send(new DeletePaymentCommand() { ModelsIds = listGuids });
+
+            return Ok("Succesfully deleted payments");
         }
 
         [HttpPut]
-        public async Task<ActionResult<string>> Add([FromBody] AssignmentDto assignmentDto)
+        public async Task<ActionResult<string>> Add([FromBody] PaymentDto paymantDto)
         {
-            return Ok();
+            await _mediator.Send(new AddPaymentCommand()
+            {
+                PaymentDto = paymantDto,
+                UserId = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418")
+            });
+
+            return Ok("Succesfully added payment");
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Update([FromBody] AssignmentDto assignmentDto)
+        public async Task<ActionResult<string>> Update([FromBody] PaymentDto paymantDto)
         {
-            return Ok();
+            await _mediator.Send(new UpdatePaymentCommand()
+            {
+                PaymentDto = paymantDto
+            });
+
+            return Ok("Succesfully updated payment");
         }
     }
 }

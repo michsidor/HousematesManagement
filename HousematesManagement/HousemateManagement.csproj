@@ -23,11 +23,4 @@
     <ProjectReference Include="..\Entity\Entity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Advertisements\Commands\" />
-    <Folder Include="Models\Advertisements\Queries\" />
-    <Folder Include="Models\Payments\Commands\" />
-    <Folder Include="Models\Payments\Queries\" />
-  </ItemGroup>
-
 </Project>
