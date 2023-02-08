@@ -4,7 +4,7 @@ using HousemateManagement.Models.Advertisements.Dto;
 using HousemateManagement.Models.Advertisements.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Models.Advertisements.Queries
+namespace HousemateManagement.Models.Advertisements.Queries.Handler
 {
     public class GetDirectAdvertisementsQueryHandler : IRequestHandler<GetDirectAdvertisementsQuery, List<AdvertisementDto>>
     {

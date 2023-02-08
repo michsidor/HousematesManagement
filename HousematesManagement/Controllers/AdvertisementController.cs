@@ -2,6 +2,7 @@
 using HousemateManagement.Models.Advertisements.Dto;
 using HousemateManagement.Models.Advertisements.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -9,6 +10,7 @@ namespace HousemateManagement.Controllers
 {
     [Route("api/advertisement")]
     [ApiController]
+    [EnableCors("MyOwnPolicy")]
     public class AdvertisementController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,28 +19,28 @@ namespace HousemateManagement.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<string>> GetOne() // request: https://localhost:7021/api/advertisement
+        [HttpGet("{id}")]
+        public async Task<ActionResult<string>> GetOne([FromRoute] Guid id) 
         {
-            var result = await _mediator.Send(new GetDirectAdvertisementsQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+            var result = await _mediator.Send(new GetDirectAdvertisementsQuery() { Id = id });
 
             return Ok(JsonSerializer.Serialize(result));
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<string>> GetAll() // request: https://localhost:7021/api/advertisement/all
+        [HttpGet(("all/{id}"))]
+        public async Task<ActionResult<string>> GetAll([FromRoute] Guid id) 
         {
-            var result = await _mediator.Send(new GetAllAdvertisementsQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+            var result = await _mediator.Send(new GetAllAdvertisementsQuery() { Id = id });
 
             return Ok(JsonSerializer.Serialize(result));
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<string>> Delete()
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<string>> Delete([FromRoute] Guid id)
         {
             var listGuids = new List<Guid>()
             {
-                Guid.Parse("83CE2A4D-F930-41D7-B483-2584F4C3391C")
+                Guid.Parse(id.ToString())
             };
 
             await _mediator.Send(new DeleteAdvertisementCommand() { ModelsIds = listGuids });
@@ -46,13 +48,13 @@ namespace HousemateManagement.Controllers
             return Ok("Succesfully deleted advertisements");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<string>> Add([FromBody] AdvertisementDto advertisementDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<string>> Add([FromBody] AdvertisementDto advertisementDto, [FromRoute] Guid id)
         {
             await _mediator.Send(new AddAdvertisementCommand()
             {
                 AdvertisementDto = advertisementDto,
-                UserId = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418")
+                UserId = id
             });
 
             return Ok("Succesfully added advertisement");

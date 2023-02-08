@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using HousemateManagement.Exceptions;
-using HousemateManagement.Models.Advertisements.Dto;
-using HousemateManagement.Models.Advertisements.Repositories;
 using HousemateManagement.Models.Payments.Dto;
 using HousemateManagement.Models.Payments.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Models.Payments.Queries
+namespace HousemateManagement.Models.Payments.Queries.Handler
 {
     public class GetAllPaymentsQueryHandler : IRequestHandler<GetAllPaymentsQuery, List<PaymentDto>>
     {
@@ -22,7 +20,7 @@ namespace HousemateManagement.Models.Payments.Queries
         public async Task<List<PaymentDto>> Handle(GetAllPaymentsQuery request, 
             CancellationToken cancellationToken)
         {
-            var payments = await _paymentRepository.GetDirect(request.Id);
+            var payments = await _paymentRepository.GetAll(request.Id);
 
             if (!payments.Any())
             {

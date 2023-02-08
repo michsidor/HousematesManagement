@@ -1,7 +1,7 @@
 ﻿using HousemateManagement.Models.Payments.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Models.Payments.Commands
+namespace HousemateManagement.Models.Payments.Commands.Handler
 {
     public class DeletePaymentCommandHandler : IRequestHandler<DeletePaymentCommand>
     {

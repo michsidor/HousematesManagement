@@ -18,7 +18,7 @@ namespace Entity.Entities
         public ICollection<Payment>? Payments { get; set; }
 
         [ForeignKey("Family")]
-        public Guid FamilyId { get; set; }
+        public Guid? FamilyId { get; set; }
         public Family? Family { get; set; }
     }
 }

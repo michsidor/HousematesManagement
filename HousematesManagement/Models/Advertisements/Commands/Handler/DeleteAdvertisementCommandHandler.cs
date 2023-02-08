@@ -1,12 +1,12 @@
 ﻿using HousemateManagement.Models.Advertisements.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Models.Advertisements.Commands
+namespace HousemateManagement.Models.Advertisements.Commands.Handler
 {
-    public class DeletePaymentCommandHandler : IRequestHandler<DeleteAdvertisementCommand>
+    public class DeleteAdvertisementCommandHandler : IRequestHandler<DeleteAdvertisementCommand>
     {
         private readonly IAdvertisementRepository _advertisementRepository;
-        public DeletePaymentCommandHandler(IAdvertisementRepository advertisementRepository)
+        public DeleteAdvertisementCommandHandler(IAdvertisementRepository advertisementRepository)
         {
             _advertisementRepository = advertisementRepository;
         }

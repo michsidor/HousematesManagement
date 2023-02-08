@@ -1,12 +1,12 @@
 ﻿using HousemateManagement.Models.Advertisements.Repositories;
 using MediatR;
 
-namespace HousemateManagement.Models.Advertisements.Commands
+namespace HousemateManagement.Models.Advertisements.Commands.Handler
 {
-    public class UpdatePaymentCommandHandler : IRequestHandler<UpdateAdvertisementCommand>
+    public class UpdateAdvertisementCommandHandler : IRequestHandler<UpdateAdvertisementCommand>
     {
         private readonly IAdvertisementRepository _advertisementRepository;
-        public UpdatePaymentCommandHandler(IAdvertisementRepository advertisementRepository)
+        public UpdateAdvertisementCommandHandler(IAdvertisementRepository advertisementRepository)
         {
             _advertisementRepository = advertisementRepository;
         }

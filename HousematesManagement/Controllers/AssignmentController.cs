@@ -2,6 +2,7 @@
 using HousemateManagement.Models.Assignments.Dto;
 using HousemateManagement.Models.Assignments.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -9,6 +10,7 @@ namespace HousemateManagement.Controllers
 {
     [Route("api/assignment")]
     [ApiController]
+    [EnableCors("MyOwnPolicy")]
     public class AssignmentController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,28 +19,28 @@ namespace HousemateManagement.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<string>> GetOne() // request: https://localhost:7021/api/task
+        [HttpGet("{id}")]
+        public async Task<ActionResult<string>> GetOne([FromRoute] Guid id) 
         {
-            var result = await _mediator.Send(new GetAssignmentQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+            var result = await _mediator.Send(new GetAssignmentQuery() { Id = id });
 
             return Ok(JsonSerializer.Serialize(result));
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<string>> GetAll() // request: https://localhost:7021/api/task/all
+        [HttpGet(("all/{id}"))]
+        public async Task<ActionResult<string>> GetAll([FromRoute] Guid id) 
         {
-            var result = await _mediator.Send(new GetAllAssignmentsQuery() { Id = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") });
+            var result = await _mediator.Send(new GetAllAssignmentsQuery() { Id = id });
        
             return Ok(JsonSerializer.Serialize(result));
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<string>> Delete()
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<string>> Delete([FromRoute] Guid id)
         {
             var listGuids = new List<Guid>()
             {
-                Guid.Parse("83CE2A4D-F930-41D7-B483-2584F4C3391C")
+                Guid.Parse(id.ToString())
             };
 
             await _mediator.Send(new DeleteAssignmentCommand() { Ids = listGuids });
@@ -46,13 +48,13 @@ namespace HousemateManagement.Controllers
             return Ok("Succesfully deleted assignments");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<string>> Add([FromBody] AssignmentDto assignmentDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<string>> Add([FromBody] AssignmentDto assignmentDto, [FromRoute] Guid id)
         {
             await _mediator.Send(new AddAssignmentCommand() 
             { 
                 AssigmentDto = assignmentDto,
-                UserId = Guid.Parse("56725F34-35AF-4455-AC9E-79F4959A6418") 
+                UserId = id 
             });
 
             return Ok("Succesfully added assignment");
