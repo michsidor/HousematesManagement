@@ -28,13 +28,12 @@ namespace HousemateManagement.Controllers
                 return Ok(result);
             }
 
-            return BadRequest("Bledne dane logowania");
+            return BadRequest("Wrong user name or password");
         }
 
         [HttpPut]
         public async Task<ActionResult<string>> Register([FromBody] UserDto modelDto)
         {
-            var x = 5;
             await _mediator.Send(new RegisterUserCommand() { UserDto = modelDto});
 
             return Ok("Succesfully registered new User");

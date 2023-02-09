@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Entity.Enums
+﻿namespace Entity.Enums
 {
     public enum Gender
     {

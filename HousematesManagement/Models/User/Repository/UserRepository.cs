@@ -36,8 +36,6 @@ namespace HousemateManagement.Models.User.Repository
                 return user.Id;
             }
 
-            var x = 5;
-
             throw new NotFoundException("Wrong password or user name");
         }
 

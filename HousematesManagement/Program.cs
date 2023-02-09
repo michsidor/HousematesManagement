@@ -17,6 +17,8 @@ using HousemateManagement.Models.User.Repository;
 using Entity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
+using HousemateManagement.Models.Family.Command.Handler;
+using HousemateManagement.Models.Family.Repository;
 
 namespace HousemateManagement
 {
@@ -25,14 +27,19 @@ namespace HousemateManagement
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //others
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            //repositories
             builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
 
-            builder.Services.AddMediatR(Assembly.GetExecutingAssembly()); 
             // assignment
             builder.Services.AddMediatR(typeof(GetAllAssignmentsQueryHandler)); 
             builder.Services.AddMediatR(typeof(GetAssignmentQueryHandler)); 
@@ -57,6 +64,10 @@ namespace HousemateManagement
             //user
             builder.Services.AddMediatR(typeof(LoginUserQueryHandler));
             builder.Services.AddMediatR(typeof(RegisterUserCommandHandler));
+
+            //family
+            builder.Services.AddMediatR(typeof(LoginToFamilyCommandHandler));
+            builder.Services.AddMediatR(typeof(AddFamilyCommandHandler));
 
             builder.Services.AddControllers().AddJsonOptions(j =>
             {
