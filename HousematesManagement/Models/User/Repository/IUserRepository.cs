@@ -6,5 +6,6 @@ namespace HousemateManagement.Models.User.Repository
     {
         public Task<Guid> Login(LoginUserDto modelDto);
         public Task Register(UserDto modelDto);
+        public Task Quit(Guid id);
     }
 }

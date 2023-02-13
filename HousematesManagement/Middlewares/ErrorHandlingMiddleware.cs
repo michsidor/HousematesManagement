@@ -7,10 +7,12 @@ namespace HousemateManagement.Middlewares
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -22,6 +24,7 @@ namespace HousemateManagement.Middlewares
             }
             catch (NotFoundException error)
             {
+                _logger.LogError($"Moj logger: {context.Request},{context.Response},{error}");
                 await HandleExceptionAsync(context, error);
             }
 

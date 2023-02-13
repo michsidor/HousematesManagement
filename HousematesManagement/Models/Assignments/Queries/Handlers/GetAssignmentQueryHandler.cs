@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HousemateManagement.Exceptions;
-using HousemateManagement.Models.Assignments.Dto;
+﻿using HousemateManagement.Models.Assignments.Dto;
 using HousemateManagement.Models.Assignments.Repositories;
 using MediatR;
 
@@ -9,23 +7,14 @@ namespace HousemateManagement.Models.Assignments.Queries.Handlers
     public class GetAssignmentQueryHandler : IRequestHandler<GetAssignmentQuery, List<AssignmentDto>>
     {
         private readonly IAssignmentRepository _taskRepository;
-        private readonly IMapper _mapper;
-        public GetAssignmentQueryHandler(IAssignmentRepository taskRepository, IMapper mapper)
+        public GetAssignmentQueryHandler(IAssignmentRepository taskRepository)
         {
             _taskRepository = taskRepository;
-            _mapper = mapper;
         }
 
         public async Task<List<AssignmentDto>> Handle(GetAssignmentQuery request, CancellationToken cancellationToken)
         {
-            var assignments = await _taskRepository.GetDirect(request.Id);
-
-            if (!assignments.Any())
-            {
-                throw new NotFoundException("You have not added any assignments");
-            }
-
-            var result = _mapper.Map<List<AssignmentDto>>(assignments);
+            var result = await _taskRepository.GetDirect(request.Id);
 
             return result;
         }

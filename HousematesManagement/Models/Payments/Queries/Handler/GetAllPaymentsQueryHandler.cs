@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HousemateManagement.Exceptions;
-using HousemateManagement.Models.Payments.Dto;
+﻿using HousemateManagement.Models.Payments.Dto;
 using HousemateManagement.Models.Payments.Repositories;
 using MediatR;
 
@@ -9,25 +7,16 @@ namespace HousemateManagement.Models.Payments.Queries.Handler
     public class GetAllPaymentsQueryHandler : IRequestHandler<GetAllPaymentsQuery, List<PaymentDto>>
     {
         private readonly IPaymentRepository _paymentRepository;
-        private readonly IMapper _mapper;
 
-        public GetAllPaymentsQueryHandler(IPaymentRepository paymentRepository, IMapper mapper)
+        public GetAllPaymentsQueryHandler(IPaymentRepository paymentRepository)
         {
-            _mapper = mapper;
             _paymentRepository = paymentRepository;
         }
 
         public async Task<List<PaymentDto>> Handle(GetAllPaymentsQuery request, 
             CancellationToken cancellationToken)
         {
-            var payments = await _paymentRepository.GetAll(request.Id);
-
-            if (!payments.Any())
-            {
-                throw new NotFoundException("You have not any payments in your family");
-            }
-
-            var result = _mapper.Map<List<PaymentDto>>(payments);
+            var result = await _paymentRepository.GetAll(request.Id);
 
             return result;
         }

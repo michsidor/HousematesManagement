@@ -39,7 +39,6 @@ namespace HousemateManagement.Models.User.Repository
             throw new NotFoundException("Wrong password or user name");
         }
 
-
         public async Task Register(UserDto modelDto)
         {
 
@@ -48,8 +47,38 @@ namespace HousemateManagement.Models.User.Repository
             var hashedPassword = _passwordHasher.HashPassword(user,user.Password);
             user.Password = hashedPassword;
 
-            await _context.AddAsync(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.AddAsync(user);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+
+        public async Task Quit(Guid id)
+        {
+            var user = await _context.Users.Where(iden => iden.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (user is null)
+            {
+                throw new NotFoundException("No user in database");
+            }
+
+            user.FamilyId = null;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

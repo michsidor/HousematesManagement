@@ -16,7 +16,7 @@ namespace HousemateManagement.Models.Advertisements.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<Advertisement>> GetAll(Guid id)
+        public async Task<List<AdvertisementDto>> GetAll(Guid id)
         {
             var familyId = await _context.Users.Where(iden => iden.Id == id)
                 .Select(family => family.FamilyId)
@@ -24,7 +24,7 @@ namespace HousemateManagement.Models.Advertisements.Repositories
               
             if (familyId == Guid.Empty)
             {
-                return null;
+                throw new NotFoundException("User is not in any family");
             }
 
             var advertisements = await _context.Users.Where(family => family.FamilyId == familyId)
@@ -32,18 +32,28 @@ namespace HousemateManagement.Models.Advertisements.Repositories
                 .SelectMany(advertisement => advertisement.Advertisements)
                 .ToListAsync();
 
-            return advertisements;
+            if (!advertisements.Any())
+            {
+                throw new NotFoundException("You have not any advertisements in your family");
+            }
+
+            return _mapper.Map<List<AdvertisementDto>>(advertisements);
         }
 
-        public async Task<List<Advertisement>> GetDirect(Guid id)
+        public async Task<List<AdvertisementDto>> GetDirect(Guid id)
         {
-            var advertisement = await _context.Users
+            var advertisements = await _context.Users
                 .Where(user => user.Id == id)
                 .Include(advertisement => advertisement.Advertisements)
                 .SelectMany(advertisement => advertisement.Advertisements)
                 .ToListAsync();
 
-            return advertisement;
+            if (!advertisements.Any())
+            {
+                throw new NotFoundException("You have not added any advertisements");
+            }
+
+            return _mapper.Map<List<AdvertisementDto>>(advertisements); ;
         }
 
         public async Task Add(AdvertisementDto modelDto, Guid userId)
@@ -54,8 +64,15 @@ namespace HousemateManagement.Models.Advertisements.Repositories
             advertisement.DateOfAddition = DateTime.Now;
             advertisement.UserId = userId;
 
-            await _context.AddAsync(advertisement);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.AddAsync(advertisement);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task Delete(List<Guid> modelIds)
@@ -63,10 +80,15 @@ namespace HousemateManagement.Models.Advertisements.Repositories
             var advertisements = await _context.Advertisements
                 .Where(advertisement => modelIds.Contains(advertisement.Id))
                 .ToListAsync();
-
-            _context.Advertisements.RemoveRange(advertisements);
-
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Advertisements.RemoveRange(advertisements);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task Update(AdvertisementDto modelDto)
@@ -89,8 +111,14 @@ namespace HousemateManagement.Models.Advertisements.Repositories
             advertisement.Title = modelDto.Title;
             advertisement.Description = modelDto.Description;
             advertisement.Comments = modelDto.Comments;
-
-            await _context.SaveChangesAsync();
+            try
+            {
+               await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

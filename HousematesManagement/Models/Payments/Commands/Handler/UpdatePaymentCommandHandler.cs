@@ -14,6 +14,7 @@ namespace HousemateManagement.Models.Payments.Commands.Handler
         public async Task<Unit> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
         {
             await _paymentRepository.Update(request.PaymentDto);
+
             return Unit.Value;
         }
     }

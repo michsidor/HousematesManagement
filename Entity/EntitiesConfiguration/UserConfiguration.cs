@@ -9,6 +9,12 @@ namespace Entity.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasIndex(login => login.Login)
+                .IsUnique();
+
+            builder.HasIndex(email => email.Email)
+                .IsUnique();
+
             builder.Property(name => name.Name)
                 .HasMaxLength(100)
                 .IsRequired();

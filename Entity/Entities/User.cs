@@ -6,11 +6,11 @@ namespace Entity.Entities
     public sealed class User
     {
         public Guid Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public string? SecondName { get; set; }
-        public string? Login { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
+        public string Login { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
         public DateTime Birthday { get; set; }
         public Gender Gender { get; set; }
         public ICollection<Assignment>? Assignment { get; set; }

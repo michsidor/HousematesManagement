@@ -13,30 +13,41 @@ namespace HousemateManagement.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public UserController(IMediator mediator)
+        private readonly ILogger<UserController> _logger;
+        public UserController(IMediator mediator, ILogger<UserController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpPost]
         public async Task<ActionResult<string>> Login([FromBody] LoginUserDto modelDto)
         {
+            _logger.LogInformation("User called HTTP POST request in User controller");
+
             var result = await _mediator.Send(new LoginUserQuery() { loginUserDto= modelDto });
 
-            if (result != Guid.Empty)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest("Wrong user name or password");
+            return Ok(result);
         }
 
         [HttpPut]
         public async Task<ActionResult<string>> Register([FromBody] UserDto modelDto)
         {
+            _logger.LogInformation($"User called HTTP PUT request in User controller with data {modelDto.Name} and {modelDto.Email}");
+
             await _mediator.Send(new RegisterUserCommand() { UserDto = modelDto});
 
             return Ok("Succesfully registered new User");
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult<string>> Quit([FromRoute] Guid id)
+        {
+            _logger.LogInformation("User called HTTP POST request in User controller [QUIT]");
+
+            await _mediator.Send(new QuitFamilyCommand() { Id = id });
+
+            return Ok("Succesfully quited the family");
         }
     }
 }

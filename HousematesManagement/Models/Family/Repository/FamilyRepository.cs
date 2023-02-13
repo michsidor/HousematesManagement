@@ -31,8 +31,17 @@ namespace HousemateManagement.Models.Family.Repository
             };
 
             user.FamilyId= family.Id;
-            await _context.AddAsync(family);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.AddAsync(family);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);    
+            }
+
         }
 
         public async Task Login(FamilyDto modelDto, Guid Id)
@@ -59,7 +68,15 @@ namespace HousemateManagement.Models.Family.Repository
             }
 
             user.FamilyId= family.Id;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex )
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

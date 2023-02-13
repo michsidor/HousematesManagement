@@ -18,7 +18,7 @@ namespace HousemateManagement.Models.Assignments.Repositories
             _mapper = mapper;
         }
 
-        public async Task<List<Assignment>> GetAll(Guid Id) // userId
+        public async Task<List<AssignmentDto>> GetAll(Guid Id) // userId
         {
             var familyId = await _context.Users.Where(iden => iden.Id == Id)
                 .Select(family => family.FamilyId)
@@ -34,18 +34,28 @@ namespace HousemateManagement.Models.Assignments.Repositories
                 .SelectMany(assignments => assignments.Assignment)
                 .ToListAsync();
 
-            return assignments;
+            if (!assignments.Any())
+            {
+                throw new NotFoundException("No assignments in your family or you are not included to family");
+            }
+
+            return _mapper.Map<List<AssignmentDto>>(assignments);
         }
 
-        public async Task<List<Assignment>> GetDirect(Guid Id)
+        public async Task<List<AssignmentDto>> GetDirect(Guid Id)
         {
-            var assignment = await _context.Users
+            var assignments = await _context.Users
                 .Where(user => user.Id == Id)
                 .Include(assignment => assignment.Assignment)
                 .SelectMany(assignments => assignments.Assignment)
                 .ToListAsync();
 
-            return assignment;
+            if (!assignments.Any())
+            {
+                throw new NotFoundException("You have not added any assignments");
+            }
+
+            return _mapper.Map<List<AssignmentDto>>(assignments);
         }
 
         public async Task Delete(List<Guid> AssignmentsId)
@@ -54,9 +64,16 @@ namespace HousemateManagement.Models.Assignments.Repositories
                 .Where(assignment => AssignmentsId.Contains(assignment.Id))
                 .ToListAsync();
 
-            _context.Assignments.RemoveRange(assignments);
+            try
+            {
+                _context.Assignments.RemoveRange(assignments);
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task Update(AssignmentDto assignmentDto)
@@ -81,7 +98,15 @@ namespace HousemateManagement.Models.Assignments.Repositories
             assignment.Comments = assignmentDto.Comments;
             assignment.Status = false;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task Add(AssignmentDto assignmentDto, Guid userId)
@@ -91,9 +116,16 @@ namespace HousemateManagement.Models.Assignments.Repositories
 
             assignment.DateOfAddition = DateTime.Now;
             assignment.UserId = userId;
+            try
+            {
+                await _context.AddAsync(assignment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
 
-            await _context.AddAsync(assignment);
-            await _context.SaveChangesAsync();
         }
     }
 }

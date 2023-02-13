@@ -6,7 +6,7 @@ namespace Entity.Entities
     {
         public Guid Id { get; set; }
         public DateTime DateOfAddition { get; set; }
-        public string? Title { get; set; }
+        public string Title { get; set; }
         public string? Description { get; set; }
         public string? Comments { get; set; }
         public bool Status { get; set; }

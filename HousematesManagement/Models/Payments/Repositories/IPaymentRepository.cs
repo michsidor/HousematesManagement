@@ -4,5 +4,5 @@ using HousemateManagement.Repositories;
 
 namespace HousemateManagement.Models.Payments.Repositories
 {
-    public interface IPaymentRepository : IRepository<Payment, PaymentDto>{ }
+    public interface IPaymentRepository : IRepository<PaymentDto>{ }
 }

@@ -32,6 +32,8 @@ namespace HousemateManagement
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+            builder.Services.AddSwaggerGen();
+
 
             //repositories
             builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
@@ -86,6 +88,11 @@ namespace HousemateManagement
             });
             var app = builder.Build();
             app.UseCors("MyOwnPolicy");
+            app.UseSwagger();
+            app.UseSwaggerUI(build =>
+            {
+                build.SwaggerEndpoint("/swagger/v1/swagger.json", "HousemateManagement");
+            });
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseAuthentication();    

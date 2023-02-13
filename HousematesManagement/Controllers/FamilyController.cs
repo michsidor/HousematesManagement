@@ -26,7 +26,7 @@ namespace HousemateManagement.Controllers
                 UserId = id
             });
 
-            return Ok();
+            return Ok("Succesfully logged in family");
         }
 
         [HttpPut("{id}")]
@@ -39,7 +39,7 @@ namespace HousemateManagement.Controllers
                 UserId = id
             });
 
-            return Ok();
+            return Ok("Succesfully added new family");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace HousemateManagement.Models.Payments.Repositories
             _context = context;
         }
 
-        public async Task<List<Payment>> GetAll(Guid id)
+        public async Task<List<PaymentDto>> GetAll(Guid id)
         {
             var familyId = await _context.Users.Where(iden => iden.Id == id)
                 .Select(family => family.FamilyId)
@@ -34,18 +34,28 @@ namespace HousemateManagement.Models.Payments.Repositories
                 .SelectMany(payment => payment.Payments)
                 .ToListAsync();
 
-            return payments;
+            if(payments.Any())
+            {
+                throw new NotFoundException("No payments founded");
+            }
+
+            return _mapper.Map<List<PaymentDto>>(payments);
         }
 
-        public async Task<List<Payment>> GetDirect(Guid id)
+        public async Task<List<PaymentDto>> GetDirect(Guid id)
         {
-            var payment = await _context.Users
+            var payments = await _context.Users
                 .Where(user => user.Id == id)
                 .Include(payment => payment.Payments)
                 .SelectMany(payment => payment.Payments)
                 .ToListAsync();
 
-            return payment;
+            if (payments.Any())
+            {
+                throw new NotFoundException("No payments founded");
+            }
+
+            return _mapper.Map<List<PaymentDto>>(payments);
         }
 
         public async Task Add(PaymentDto modelDto, Guid userId)
@@ -55,8 +65,16 @@ namespace HousemateManagement.Models.Payments.Repositories
 
             payment.UserId = userId;
 
-            await _context.AddAsync(payment);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.AddAsync(payment);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
         }
         
         public async Task Delete(List<Guid> modelIds)
@@ -65,9 +83,15 @@ namespace HousemateManagement.Models.Payments.Repositories
                 .Where(payment => modelIds.Contains(payment.Id))
                 .ToListAsync();
 
-            _context.Payments.RemoveRange(payments);
-
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Payments.RemoveRange(payments);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task Update(PaymentDto modelDto)
@@ -90,7 +114,15 @@ namespace HousemateManagement.Models.Payments.Repositories
             payment.Deadline = modelDto.Deadline;
             payment.DebtorsMetadata = modelDto.DebtorsMetadata;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Payments.RemoveRange(payments);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }
