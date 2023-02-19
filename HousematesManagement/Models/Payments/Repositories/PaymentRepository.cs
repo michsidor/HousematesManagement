@@ -77,15 +77,20 @@ namespace HousemateManagement.Models.Payments.Repositories
 
         }
         
-        public async Task Delete(List<Guid> modelIds)
+        public async Task Delete(Guid Id)
         {
-            var payments = await _context.Payments
-                .Where(payment => modelIds.Contains(payment.Id))
-                .ToListAsync();
+            var payment = await _context.Payments
+                .Where(payment => payment.Id == Id)
+                .FirstOrDefaultAsync();
+
+            if (payment is null)
+            {
+                throw new NotFoundException("No payment found");
+            }
 
             try
             {
-                _context.Payments.RemoveRange(payments);
+                _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -116,7 +121,7 @@ namespace HousemateManagement.Models.Payments.Repositories
 
             try
             {
-                _context.Payments.RemoveRange(payments);
+                _context.Payments.RemoveRange(payment);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

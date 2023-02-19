@@ -13,7 +13,7 @@ namespace HousemateManagement.Models.Assignments.Commands.Handlers
 
         public async Task<Unit> Handle(DeleteAssignmentCommand request, CancellationToken cancellationToken)
         {
-            await _taskRepository.Delete(request.Ids);
+            await _taskRepository.Delete(request.Id);
 
             return Unit.Value;
         }

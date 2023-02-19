@@ -4,6 +4,6 @@ namespace HousemateManagement.Models.Payments.Commands
 {
     public class DeletePaymentCommand : IRequest
     {
-        public List<Guid> ModelsIds { get; set; }
+        public Guid Id { get; set; }
     }
 }

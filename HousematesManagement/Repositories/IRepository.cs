@@ -5,7 +5,7 @@ namespace HousemateManagement.Repositories
     {
         public Task<List<T>> GetAll(Guid id);
         public Task<List<T>> GetDirect(Guid id);
-        public Task Delete(List<Guid> modelIds);
+        public Task Delete(Guid Id);
         public Task Update(T modelDto);
         public Task Add(T modelDto, Guid userId);
     }

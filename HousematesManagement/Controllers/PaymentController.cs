@@ -38,13 +38,7 @@ namespace HousemateManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<string>> Delete([FromRoute] Guid id)
         {
-
-            var listGuids = new List<Guid>()
-            {
-                Guid.Parse(id.ToString())
-            };
-
-            await _mediator.Send(new DeletePaymentCommand() { ModelsIds = listGuids });
+            await _mediator.Send(new DeletePaymentCommand() { Id = id });
 
             return Ok("Succesfully deleted payments");
         }

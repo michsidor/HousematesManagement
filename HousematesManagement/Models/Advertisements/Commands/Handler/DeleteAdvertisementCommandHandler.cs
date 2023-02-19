@@ -13,7 +13,7 @@ namespace HousemateManagement.Models.Advertisements.Commands.Handler
 
         public async Task<Unit> Handle(DeleteAdvertisementCommand request, CancellationToken cancellationToken)
         {
-            await _advertisementRepository.Delete(request.ModelsIds);
+            await _advertisementRepository.Delete(request.Id);
 
             return Unit.Value;
         }

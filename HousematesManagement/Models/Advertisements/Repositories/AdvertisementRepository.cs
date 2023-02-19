@@ -75,14 +75,20 @@ namespace HousemateManagement.Models.Advertisements.Repositories
             }
         }
 
-        public async Task Delete(List<Guid> modelIds)
+        public async Task Delete(Guid Id)
         {
-            var advertisements = await _context.Advertisements
-                .Where(advertisement => modelIds.Contains(advertisement.Id))
-                .ToListAsync();
+            var advertisement = await _context.Advertisements
+                .Where(advertisement => advertisement.Id == Id)
+                .FirstOrDefaultAsync();
+
+            if (advertisement is null)
+            {
+                throw new NotFoundException("Error - no task with Id found");
+            }
+
             try
             {
-                _context.Advertisements.RemoveRange(advertisements);
+                _context.Advertisements.Remove(advertisement);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

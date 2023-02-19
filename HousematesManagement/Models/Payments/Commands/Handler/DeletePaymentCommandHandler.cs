@@ -13,7 +13,7 @@ namespace HousemateManagement.Models.Payments.Commands.Handler
 
         public async Task<Unit> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
         {
-            await _paymentRepository.Delete(request.ModelsIds);
+            await _paymentRepository.Delete(request.Id);
 
             return Unit.Value;
         }

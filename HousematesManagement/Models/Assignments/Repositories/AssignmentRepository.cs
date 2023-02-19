@@ -58,15 +58,20 @@ namespace HousemateManagement.Models.Assignments.Repositories
             return _mapper.Map<List<AssignmentDto>>(assignments);
         }
 
-        public async Task Delete(List<Guid> AssignmentsId)
+        public async Task Delete(Guid Id)
         {
-            var assignments = await _context.Assignments
-                .Where(assignment => AssignmentsId.Contains(assignment.Id))
-                .ToListAsync();
+            var assignment = await _context.Assignments
+                .Where(assignment => assignment.Id == Id)
+                .FirstOrDefaultAsync();
+
+            if (assignment is null)
+            {
+                throw new NotFoundException("No assignment found");
+            }
 
             try
             {
-                _context.Assignments.RemoveRange(assignments);
+                _context.Assignments.Remove(assignment);
                 await _context.SaveChangesAsync();
 
             }
@@ -89,7 +94,7 @@ namespace HousemateManagement.Models.Assignments.Repositories
 
             if (assignment is null)
             {
-                throw new NotFoundException("Error - no task with Id found");
+                throw new NotFoundException("No assignment found");
             }
 
             assignment.DateOfAddition = DateTime.Now;
