@@ -83,7 +83,7 @@ namespace HousemateManagement.Models.Advertisements.Repositories
 
             if (advertisement is null)
             {
-                throw new NotFoundException("Error - no task with Id found");
+                throw new NotFoundException("Error - no advertisement with Id found");
             }
 
             try
@@ -110,7 +110,7 @@ namespace HousemateManagement.Models.Advertisements.Repositories
 
             if (advertisement is null)
             {
-                throw new NotFoundException("Error - no task with Id found");
+                throw new NotFoundException("Error - no advertisement with Id found");
             }
 
             advertisement.DateOfAddition = DateTime.Now;

@@ -26,7 +26,7 @@ namespace HousemateManagement.Models.Assignments.Repositories
 
             if (familyId == Guid.Empty)
             {
-                return null;
+                throw new NotFoundException("User is not in any family");
             }
 
             var assignments = await _context.Users.Where(family => family.FamilyId == familyId)

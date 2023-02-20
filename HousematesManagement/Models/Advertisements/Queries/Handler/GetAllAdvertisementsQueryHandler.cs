@@ -16,7 +16,7 @@ namespace HousemateManagement.Models.Advertisements.Queries.Handler
         public async Task<List<AdvertisementDto>> Handle(GetAllAdvertisementsQuery request, 
             CancellationToken cancellationToken)
         {
-            var result = await _advertisementRepository.GetDirect(request.Id);
+            var result = await _advertisementRepository.GetAll(request.Id);
 
             return result;
         }

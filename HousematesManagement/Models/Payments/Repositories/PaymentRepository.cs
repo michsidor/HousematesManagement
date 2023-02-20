@@ -26,7 +26,7 @@ namespace HousemateManagement.Models.Payments.Repositories
 
             if (familyId == Guid.Empty)
             {
-                return null;
+                throw new NotFoundException("User is not in any family");
             }
 
             var payments = await _context.Users.Where(family => family.FamilyId == familyId)
@@ -34,7 +34,7 @@ namespace HousemateManagement.Models.Payments.Repositories
                 .SelectMany(payment => payment.Payments)
                 .ToListAsync();
 
-            if(payments.Any())
+            if(!payments.Any())
             {
                 throw new NotFoundException("No payments founded");
             }
@@ -50,7 +50,7 @@ namespace HousemateManagement.Models.Payments.Repositories
                 .SelectMany(payment => payment.Payments)
                 .ToListAsync();
 
-            if (payments.Any())
+            if (!payments.Any())
             {
                 throw new NotFoundException("No payments founded");
             }
@@ -112,7 +112,7 @@ namespace HousemateManagement.Models.Payments.Repositories
 
             if (payment is null)
             {
-                throw new NotFoundException("Error - no task with Id found");
+                throw new NotFoundException("No payment found");
             }
 
             payment.Amount = modelDto.Amount;
@@ -121,7 +121,6 @@ namespace HousemateManagement.Models.Payments.Repositories
 
             try
             {
-                _context.Payments.RemoveRange(payment);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
