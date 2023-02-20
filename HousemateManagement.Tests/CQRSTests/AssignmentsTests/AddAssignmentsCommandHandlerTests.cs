@@ -4,7 +4,7 @@ using HousemateManagement.Models.Assignments.Repositories;
 using HousemateManagement.Models.Assignments.Commands.Handlers;
 using HousemateManagement.Models.Assignments.Commands;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.AssignmentsTests
+namespace HousemateManagement.Tests.CQRSTests.AssignmentsTests
 {
     public class AddAssignmentsCommandHandlerTests
     {

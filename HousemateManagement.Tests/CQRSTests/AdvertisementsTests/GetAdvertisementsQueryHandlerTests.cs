@@ -5,7 +5,7 @@ using HousemateManagement.Models.Advertisements.Queries.Handler;
 using HousemateManagement.Models.Advertisements.Repositories;
 using Moq;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.AdvertisementsTests
+namespace HousemateManagement.Tests.CQRSTests.AdvertisementsTests
 {
     public class GetAdvertisementsQueryHandlerTests
     {
@@ -44,7 +44,7 @@ namespace HousemateManagement.Tests.Endpoints.CQRSTests.AdvertisementsTests
             {
                 Id = id
             };
-            
+
             await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(command, CancellationToken.None));
 
             mockRepository.Verify(repo => repo.GetAll(id), Times.Once());

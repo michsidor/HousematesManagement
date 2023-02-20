@@ -4,7 +4,7 @@ using HousemateManagement.Models.Family.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace HousemateManagement.Tests.Endpoints
+namespace HousemateManagement.Tests.ControllersTests
 {
     public class FamilyControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
@@ -19,7 +19,7 @@ namespace HousemateManagement.Tests.Endpoints
         {
             var family = new AddFamilyDto()
             {
-                Name= "name",
+                Name = "name",
             };
 
             var resposne = await _httpClient.PutAsJsonAsync("/api/family/07C3BA84-53A5-4133-BAB8-C3A400C53013", family);
@@ -46,7 +46,7 @@ namespace HousemateManagement.Tests.Endpoints
             var family = new FamilyDto()
             {
                 Id = Guid.Parse("15525635-E62A-4317-8B14-8486687423E1"),
-                Name= "Test",
+                Name = "Test",
             };
 
             var resposne = await _httpClient.PostAsJsonAsync("/api/family/07C3BA84-53A5-4133-BAB8-C3A400C53013", family);

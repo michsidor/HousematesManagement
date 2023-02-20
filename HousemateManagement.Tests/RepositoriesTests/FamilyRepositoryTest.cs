@@ -6,7 +6,7 @@ using HousemateManagement.Models.Family.Dto;
 using HousemateManagement.Models.Family.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
+namespace HousemateManagement.Tests.RepositoriesTests
 {
     public class FamilyRepositoryTest
     {

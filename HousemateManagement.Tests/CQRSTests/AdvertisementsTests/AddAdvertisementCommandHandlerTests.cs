@@ -4,7 +4,7 @@ using HousemateManagement.Models.Advertisements.Dto;
 using HousemateManagement.Models.Advertisements.Repositories;
 using Moq;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.AdvertisementsTests
+namespace HousemateManagement.Tests.CQRSTests.AdvertisementsTests
 {
     public class AddAdvertisementCommandHandlerTests
     {

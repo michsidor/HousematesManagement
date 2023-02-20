@@ -5,7 +5,7 @@ using HousemateManagement.Models.Payments.Repositories;
 using HousemateManagement.Models.Payments.Commands.Handler;
 using HousemateManagement.Models.Payments.Commands;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.PaymentsTests
+namespace HousemateManagement.Tests.CQRSTests.PaymentsTests
 {
     public class UpdatePaymentCommandHandlerTests
     {

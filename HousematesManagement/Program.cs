@@ -31,45 +31,9 @@ namespace HousemateManagement
             //others
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddSwaggerGen();
-
-
-            //repositories
-            builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-            builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
-            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
-
-            // assignment
-            builder.Services.AddMediatR(typeof(GetAllAssignmentsQueryHandler)); 
-            builder.Services.AddMediatR(typeof(GetAssignmentQueryHandler)); 
-            builder.Services.AddMediatR(typeof(AddAssignmentCommandHandler)); 
-            builder.Services.AddMediatR(typeof(DeleteAssignmentCommandHandler)); 
-            builder.Services.AddMediatR(typeof(UpdateAssignmentCommandHandler));
-
-            //advertisements
-            builder.Services.AddMediatR(typeof(GetAllAdvertisementsQueryHandler));
-            builder.Services.AddMediatR(typeof(GetDirectAdvertisementsQueryHandler));
-            builder.Services.AddMediatR(typeof(AddAdvertisementCommandHandler));
-            builder.Services.AddMediatR(typeof(DeleteAdvertisementCommandHandler));
-            builder.Services.AddMediatR(typeof(UpdateAdvertisementCommandHandler));
-
-            //payments
-            builder.Services.AddMediatR(typeof(GetAllPaymentsQueryHandler));
-            builder.Services.AddMediatR(typeof(GetDirectPaymentsQueryHandler));
-            builder.Services.AddMediatR(typeof(AddPaymentCommandHandler));
-            builder.Services.AddMediatR(typeof(DeletePaymentCommandHandler));
-            builder.Services.AddMediatR(typeof(UpdatePaymentCommandHandler));
-
-            //user
-            builder.Services.AddMediatR(typeof(LoginUserQueryHandler));
-            builder.Services.AddMediatR(typeof(RegisterUserCommandHandler));
-
-            //family
-            builder.Services.AddMediatR(typeof(LoginToFamilyCommandHandler));
-            builder.Services.AddMediatR(typeof(AddFamilyCommandHandler));
+            builder.Services.AddMediatRHandlers();
+            builder.Services.AddRepositoriesService();
 
             builder.Services.AddControllers().AddJsonOptions(j =>
             {
@@ -78,6 +42,7 @@ namespace HousemateManagement
             builder.Services.AddDbContext<DatabaseContext>(
                     options => options.UseSqlServer(builder.Configuration.GetSection("ConnectionString").Value.ToString(),
                     b => b.MigrationsAssembly("HousemateManagement")));
+
             builder.Services.AddCors(options => {
                 options.AddPolicy("MyOwnPolicy", build =>
                 {
@@ -86,6 +51,8 @@ namespace HousemateManagement
                     .AllowAnyOrigin();
                 });
             });
+
+            
             var app = builder.Build();
             app.UseCors("MyOwnPolicy");
             app.UseSwagger();

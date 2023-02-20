@@ -5,7 +5,7 @@ using HousemateManagement.Models.User.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace HousemateManagement.Tests.Endpoints.ControllersTests
+namespace HousemateManagement.Tests.ControllersTests
 {
     public class UserControllerTest : IClassFixture<WebApplicationFactory<Program>>
     {

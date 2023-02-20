@@ -5,7 +5,7 @@ using HousemateManagement.Models.Payments.Queries.Handler;
 using HousemateManagement.Models.Payments.Queries;
 using HousemateManagement.Models.Payments.Dto;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.PaymentsTests
+namespace HousemateManagement.Tests.CQRSTests.PaymentsTests
 {
     public class GetPaymentsQueryHandlerTests
     {

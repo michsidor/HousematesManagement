@@ -8,12 +8,12 @@ using HousemateManagement.Models.User.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
+namespace HousemateManagement.Tests.RepositoriesTests
 {
     public class UserRepositoryTest
     {
         private readonly IMapper _mapper;
-        private readonly IPasswordHasher<Entity.Entities.User> _passwordHasher;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public UserRepositoryTest()
         {
@@ -25,7 +25,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
                 cfg.CreateMap<LoginUserDto, User>();
             });
 
-            _passwordHasher = new PasswordHasher<Entity.Entities.User>();
+            _passwordHasher = new PasswordHasher<User>();
             _mapper = config.CreateMapper();
         }
 
@@ -44,7 +44,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
             };
 
             var password = _passwordHasher.HashPassword(user, "password");
-            user.Password= password;
+            user.Password = password;
 
             var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Login_ReturnsGuid")
@@ -148,7 +148,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
         {
             var userDto = new UserDto()
             {
-                Name = "testName", 
+                Name = "testName",
                 SecondName = "test",
                 Login = "test",
                 Email = "testEmail",

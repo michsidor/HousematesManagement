@@ -4,7 +4,7 @@ using HousemateManagement.Models.Payments.Commands.Handler;
 using HousemateManagement.Models.Payments.Commands;
 using HousemateManagement.Models.Payments.Repositories;
 
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.PaymentsTests
+namespace HousemateManagement.Tests.CQRSTests.PaymentsTests
 {
     public class AddPaymentCommandHandlerTests
     {
@@ -13,8 +13,8 @@ namespace HousemateManagement.Tests.Endpoints.CQRSTests.PaymentsTests
         {
             var paymentDto = new PaymentDto
             {
-                Amount= 1,
-                Deadline= DateTime.UtcNow,
+                Amount = 1,
+                Deadline = DateTime.UtcNow,
                 DebtorsMetadata = "test"
 
             };

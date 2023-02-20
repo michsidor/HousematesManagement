@@ -4,7 +4,7 @@ using HousemateManagement.Models.Assignments.Queries;
 using HousemateManagement.Models.Assignments.Queries.Handlers;
 using HousemateManagement.Models.Assignments.Repositories;
 using Moq;
-namespace HousemateManagement.Tests.Endpoints.CQRSTests.AssignmentsTests
+namespace HousemateManagement.Tests.CQRSTests.AssignmentsTests
 {
     public class GetAssignmentsQueryHandlerTests
     {
@@ -82,7 +82,7 @@ namespace HousemateManagement.Tests.Endpoints.CQRSTests.AssignmentsTests
                 new AssignmentDto { Id = Guid.NewGuid(), Title = "Ad 1" },
                 new AssignmentDto { Id = Guid.NewGuid(), Title = "Ad 2" },
                 new AssignmentDto { Id = Guid.NewGuid(), Title = "Ad 3" }
-            
+
             };
             mockRepository.Setup(repo => repo.GetDirect(id)).ReturnsAsync(expectedAssignments);
 

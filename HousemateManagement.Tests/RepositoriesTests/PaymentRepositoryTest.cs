@@ -7,7 +7,7 @@ using HousemateManagement.Models.Payments.Dto;
 using HousemateManagement.Models.Payments.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
+namespace HousemateManagement.Tests.RepositoriesTests
 {
     public class PaymentRepositoryTest
     {
@@ -318,7 +318,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
 
             var paymentDto = new PaymentDto()
             {
-                Id= paymentId,
+                Id = paymentId,
                 Amount = 2,
                 Deadline = DateTime.Now,
                 DebtorsMetadata = "metadataNew",

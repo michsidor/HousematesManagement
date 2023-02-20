@@ -1,22 +1,23 @@
 ﻿using FluentAssertions;
-using HousemateManagement.Models.Payments.Dto;
+using HousemateManagement.Models.Advertisements.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
 
-namespace HousemateManagement.Tests.Endpoints.ControllersTests
+namespace HousemateManagement.Tests.ControllersTests
 {
-    public class PaymentControllerTests : IClassFixture<WebApplicationFactory<Program>>
+    public class AdvertisementControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private HttpClient _httpClient;
-        public PaymentControllerTests(WebApplicationFactory<Program> factory)
+        public AdvertisementControllerTests(WebApplicationFactory<Program> factory)
         {
             _httpClient = factory.CreateClient();
         }
 
         [Theory]
-        [InlineData("/api/payment/all/15525635-E62A-4317-8B14-8486687423E1")]
-        [InlineData("/api/payment/15525635-E62A-4317-8B14-8486687423E1")]
+        [InlineData("/api/advertisement/all/15525635-E62A-4317-8B14-8486687423E1")]
+        [InlineData("/api/advertisement/15525635-E62A-4317-8B14-8486687423E1")]
+
         public async void GETRequestEndpoint_WhenCalled_ShouldReturnSucces(string url)
         {
             var resposne = await _httpClient.GetAsync(url);
@@ -25,8 +26,8 @@ namespace HousemateManagement.Tests.Endpoints.ControllersTests
         }
 
         [Theory]
-        [InlineData("/api/payment/all/07C3BA84-53A5-4133-BAB8-C3A400C53013")]
-        [InlineData("/api/payment/07C3BA84-53A5-4133-BAB8-C3A400C53013")]
+        [InlineData("/api/advertisement/all/07C3BA84-53A5-4133-BAB8-C3A400C53013")]
+        [InlineData("/api/advertisement/07C3BA84-53A5-4133-BAB8-C3A400C53013")]
         public async void GETRequestEndpoint_WhenCalled_ShouldReturnFailure(string url)
         {
             var resposne = await _httpClient.GetAsync(url);
@@ -37,14 +38,14 @@ namespace HousemateManagement.Tests.Endpoints.ControllersTests
         [Fact]
         public async Task PUTRequestEndpoint_WhenCalled_ShouldReturnSucces()
         {
-            var payment = new PaymentDto()
+            var advertisement = new AdvertisementDto()
             {
-                Amount = 1,
-                Deadline = DateTime.Now,
-                DebtorsMetadata = "Metadata"
+                Title = "Test",
+                Description = "Test",
+                Comments = "Test"
             };
 
-            var response = await _httpClient.PutAsJsonAsync($"/api/payment/07C3BA84-53A5-4133-BAB8-C3A400C53013", payment);
+            var response = await _httpClient.PutAsJsonAsync($"/api/advertisement/07C3BA84-53A5-4133-BAB8-C3A400C53013", advertisement);
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
@@ -52,14 +53,14 @@ namespace HousemateManagement.Tests.Endpoints.ControllersTests
         [Fact]
         public async Task PUTRequestEndpoint_WhenCalled_ShouldReturnFailure()
         {
-            var payment = new PaymentDto()
+            var advertisement = new AdvertisementDto()
             {
-                Amount = 1,
-                Deadline = DateTime.Now,
-                DebtorsMetadata = "Metadata"
+                Title = "Test",
+                Description = "Test",
+                Comments = "Test"
             };
 
-            var resposne = await _httpClient.PutAsJsonAsync("/api/payment/08C3BA84-53A5-4133-BAB8-C3A400C53013", payment);
+            var resposne = await _httpClient.PutAsJsonAsync("/api/advertisement/08C3BA84-53A5-4133-BAB8-C3A400C53013", advertisement);
 
             resposne.StatusCode.Should().Be(System.Net.HttpStatusCode.InternalServerError);
         }
@@ -67,15 +68,15 @@ namespace HousemateManagement.Tests.Endpoints.ControllersTests
         [Fact]
         public async void POSTRequestEndpoint_WhenCalled_ShouldReturnSucces()
         {
-            var payment = new PaymentDto()
+            var advertisement = new AdvertisementDto()
             {
-                Id = Guid.Parse("4344A535-E4F4-47A7-B9C0-63CC387D8FE1"),
-                Amount = 1,
-                Deadline = DateTime.Now,
-                DebtorsMetadata = "Metadata"
+                Id = Guid.Parse("EDFA039D-E7F8-4172-9CC0-6E5F2755BBC9"),
+                Title = "Test",
+                Description = "Test",
+                Comments = "Test"
             };
 
-            var resposne = await _httpClient.PostAsJsonAsync("/api/payment", payment);
+            var resposne = await _httpClient.PostAsJsonAsync("/api/advertisement", advertisement);
 
             resposne.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
@@ -83,30 +84,31 @@ namespace HousemateManagement.Tests.Endpoints.ControllersTests
         [Fact]
         public async void POSTRequestEndpoint_WhenCalled_ShouldReturnFailure()
         {
-            var payment = new PaymentDto()
+            var advertisement = new AdvertisementDto()
             {
-                Id = Guid.Parse("08C3BA84-53A5-4133-BAB8-C3A400C53013"),
-                Amount = 1,
-                Deadline = DateTime.Now,
-                DebtorsMetadata = "Metadata"
+                Id = Guid.Parse("EDFA039U-E7F8-4172-9CC0-6E5F2755BBC9"),
+                Title = "Test",
+                Description = "Test",
+                Comments = "Test"
             };
 
-            var resposne = await _httpClient.PostAsJsonAsync("/api/payment", payment);
+            var resposne = await _httpClient.PostAsJsonAsync("/api/advertisement", advertisement);
 
             resposne.StatusCode.Should().Be(System.Net.HttpStatusCode.InternalServerError);
         }
 
         [Theory]
-        [InlineData("/api/payment/all/67530651-C378-431C-91F8-D5706891F287")]
+        [InlineData("/api/advertisement/EDFA039D-E7F8-4172-9CC0-6E5F2755BBC9")]
         public async void DELETERequestEndpoint_WhenCalled_ShouldReturnSucces(string url)
         {
+
             var resposne = await _httpClient.DeleteAsync(url);
 
             resposne.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
 
         [Theory]
-        [InlineData("/api/payment/all/68530651-C378-431C-91F8-D5706891F287")]
+        [InlineData("/api/advertisement/EDFA039D-E7F8-4172-9CC0-6E5F2755BBC9")]
         public async void DELETERequestEndpoint_WhenCalled_ShouldReturnFailure(string url)
         {
             var resposne = await _httpClient.DeleteAsync(url);

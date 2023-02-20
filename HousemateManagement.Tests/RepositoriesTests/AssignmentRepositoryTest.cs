@@ -6,7 +6,7 @@ using HousemateManagement.Models.Assignments.Dto;
 using HousemateManagement.Models.Assignments.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
+namespace HousemateManagement.Tests.RepositoriesTests
 {
     public class AssignmentRepositoryTest
     {
@@ -32,7 +32,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
 
             var assignments = new List<Assignment>
             {
-                new Assignment { Id = Guid.NewGuid(), Title = "Task 1", Description = "Description 1", 
+                new Assignment { Id = Guid.NewGuid(), Title = "Task 1", Description = "Description 1",
                     DateOfAddition = DateTime.Now, Status = false, UserId = userId },
                 new Assignment { Id = Guid.NewGuid(), Title = "Task 2", Description = "Description 2",
                     DateOfAddition = DateTime.Now, Status = false, UserId = userId }
@@ -227,7 +227,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
 
             await assignmentRepository.Delete(assignmentOneId);
 
-            Assert.Equal(1,context.Assignments.Count());
+            Assert.Equal(1, context.Assignments.Count());
             Assert.Equal("Task 2", context.Assignments.Select(title => title.Title).FirstOrDefault());
         }
 
@@ -263,7 +263,7 @@ namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var assignments = new List<Assignment>{};
+            var assignments = new List<Assignment> { };
 
             var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "Add_ReturnsNull")

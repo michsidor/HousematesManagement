@@ -7,7 +7,7 @@ using HousemateManagement.Models.Advertisements.Repositories;
 using HousemateManagement.Models.Assignments.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace HousemateManagement.Tests.Endpoints.RepositoriesTests
+namespace HousemateManagement.Tests.RepositoriesTests
 {
     public class AdvertisementRepositoryTest
     {
